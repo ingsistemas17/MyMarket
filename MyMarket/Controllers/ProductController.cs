@@ -81,7 +81,7 @@ namespace MyMarket.Controllers
             db.Products.Add(product);
             db.SaveChanges();
 
-            return Ok("buyingProduct was created succesfully");
+            return Ok("Product was created succesfully");
 
 
         }
