@@ -24,13 +24,12 @@ namespace MyMarket.Models
         [Required]
         public DateTime CreationTime { get; set; }
 
-        [Required]
+
         public long CustomerId { get; set; }
 
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
         [ForeignKey("UserId")]

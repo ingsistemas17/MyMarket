@@ -26,13 +26,11 @@ namespace MyMarket.Models
         public bool IsLoading { get; set; }
 
 
-        [Required]
         public string UserId { get; set; }
 
         [ForeignKey("UserId")]
         public virtual IdentityUser User { get; set; }
 
-        [Required]
         public long ProductId { get; set; }
 
         [ForeignKey("ProductId")]

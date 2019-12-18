@@ -44,10 +44,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -126,9 +126,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BuyingProductController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\Dto\BuyingProductDto.cs" />
+    <Compile Include="Controllers\Dto\CustomerDto.cs" />
+    <Compile Include="Controllers\Dto\ProductDto.cs" />
+    <Compile Include="Controllers\Dto\ReceiptDto.cs" />
+    <Compile Include="Controllers\Dto\SaleProductDto.cs" />
+    <Compile Include="Controllers\Dto\SaleProductOutDto.cs" />
+    <Compile Include="Controllers\Dto\WareHouseDto.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ReceiptController.cs" />
+    <Compile Include="Controllers\SaleProductController.cs" />
+    <Compile Include="Controllers\WareHouseController.cs" />
     <Compile Include="Migrations\201912140023349_Initial.cs" />
     <Compile Include="Migrations\201912140023349_Initial.Designer.cs">
       <DependentUpon>201912140023349_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912170020559_MiMarket.cs" />
+    <Compile Include="Migrations\201912170020559_MiMarket.Designer.cs">
+      <DependentUpon>201912170020559_MiMarket.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BuyingProduct.cs" />
@@ -154,11 +171,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201912140023349_Initial.resx">
       <DependentUpon>201912140023349_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912170020559_MiMarket.resx">
+      <DependentUpon>201912170020559_MiMarket.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

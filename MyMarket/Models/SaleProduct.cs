@@ -35,14 +35,14 @@ namespace MyMarket.Models
         public DateTime CreationTime { get; set; }
 
 
-        [Required]
+
         public long ProductId { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
 
-        [Required]
+
         public long ReceiptId { get; set; }
 
         [ForeignKey("ReceiptId")]

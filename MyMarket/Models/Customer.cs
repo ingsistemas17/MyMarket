@@ -43,7 +43,6 @@ namespace MyMarket.Models
         public DateTime CreationTime { get; set; }
 
 
-        [Required]
         public string UserId { get; set; }
 
         [ForeignKey("UserId")]

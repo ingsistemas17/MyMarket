@@ -30,7 +30,7 @@ namespace MyMarket.Models
         [Required]
         public decimal UnitPrice { get
             {
-                return UnitPriceBuying * MargenGain / 100;
+                return (UnitPriceBuying * MargenGain / 100)+ UnitPriceBuying;
             }
             
         }
@@ -39,13 +39,13 @@ namespace MyMarket.Models
         [Required]
         public DateTime CreationTime { get; set; }
 
-        [Required]
+
         public string UserId { get; set; }
 
         [ForeignKey("UserId")]
         public virtual IdentityUser User { get; set; }
 
-        [Required]
+
         public long ProductId { get; set; }
 
         [ForeignKey("ProductId")]
