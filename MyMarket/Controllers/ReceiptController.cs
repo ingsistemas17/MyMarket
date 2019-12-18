@@ -38,6 +38,7 @@ namespace MyMarket.Controllers
         {
             IdentityUser user = db.Users.Where(a => a.UserName == ControllerContext.RequestContext.Principal.Identity.Name).FirstOrDefault();
             decimal totalPrice = receiptDto.Products.Sum(a => a.TotalPrice);
+            var customer = db.Customers.FirstOrDefault(a => a.IdentificationNumber == receiptDto.IdentificationNumber);
 
             if (user == null)
             {
@@ -49,12 +50,22 @@ namespace MyMarket.Controllers
                 throw new HttpResponseException(response);
             }
 
+            if (customer == null)
+            {
+                var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent("Customer doesn't exist."),
+                    StatusCode = HttpStatusCode.NotFound
+                };
+                throw new HttpResponseException(response);
+            }
+
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
                 {
 
-                    saveReceipt(receiptDto, totalPrice, user.Id);
+                    saveReceipt(receiptDto, totalPrice, user.Id, customer.Id);
 
                    
 
@@ -73,12 +84,12 @@ namespace MyMarket.Controllers
 
         }
 
-        private void saveReceipt(ReceiptDto receiptDto, decimal totalPrice, string userid)
+        private void saveReceipt(ReceiptDto receiptDto, decimal totalPrice, string userid, long customerId)
         {
             Receipt receipt = new Receipt()
             {
                 CodeReceipt = receiptDto.CodeReceipt,
-                CustomerId = db.Customers.FirstOrDefault(a => a.IdentificationNumber == receiptDto.IdentificationNumber).Id,
+                CustomerId = customerId,
                 IVA = receiptDto.IVA,
                 TotalPrice = (totalPrice * 19 / 100) + totalPrice,
                 UserId = userid,
