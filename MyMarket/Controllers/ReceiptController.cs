@@ -63,12 +63,8 @@ namespace MyMarket.Controllers
                 catch(Exception e)
                 {
                     transaction.Rollback();
-                    var response = new HttpResponseMessage(HttpStatusCode.NotFound)
-                    {
-                        Content = new StringContent("error creating the receipt "+e.Message),
-                        StatusCode = HttpStatusCode.NotFound
-                    };
-                    throw new HttpResponseException(response);
+
+                    throw e;
                 }
             }
 
@@ -109,7 +105,20 @@ namespace MyMarket.Controllers
                 db.SaleProducts.Add(product);
 
                 var wareHouse = db.WareHouses.FirstOrDefault(a => a.ProductId == pro.ProductId);
+
+                if (wareHouse.AmountWareHouse - pro.Amount < 0)
+                {
+                    var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+                    {
+                        Content = new StringContent("not enough units available  amount: " + wareHouse.AmountWareHouse),
+                        StatusCode = HttpStatusCode.NotFound
+                    };
+                    throw new HttpResponseException(response);
+                }
+
                 wareHouse.AmountWareHouse -= pro.Amount;
+
+
             }
 
             db.SaveChanges();
