@@ -30,14 +30,14 @@ namespace MyMarket.Migrations
 
             var user = new IdentityUser()
             {
-                UserName = "cashier"
+                UserName = "cashier1"
             };
             if (userManager.FindByName(user.UserName) != null)
             {
                 return true;
             }
 
-            identityResult = userManager.Create(user, "12345");
+            identityResult = userManager.Create(user, "cashier1");
 
             return identityResult.Succeeded;
         }
@@ -53,7 +53,7 @@ namespace MyMarket.Migrations
             // Create a new user as a POCO
             var user = new IdentityUser()
             {
-                UserName = "admin"
+                UserName = "Admin"
             };
             // Check if the user already exists. If so, the user exists so report true
             if (userManager.FindByName(user.UserName) != null)
