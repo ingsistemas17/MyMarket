@@ -9,6 +9,9 @@ namespace MyMarket.Controllers.Dto
     {
         public int Amount { get;  set; }
         public long ProductId { get;  set; }
+
+        public string ProductName { get; set; }
+
         public decimal UnitPrice { get;  set; }
         public decimal TotalPrice { get;  set; }
     }

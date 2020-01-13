@@ -1,4 +1,4 @@
-﻿using MyMarket.Controllers.Dto;
+﻿ using MyMarket.Controllers.Dto;
 using MyMarket.Models;
 using System;
 using System.Collections.Generic;
@@ -87,10 +87,13 @@ namespace MyMarket.Controllers
                 }
             }
 
+
+
             SaleProductOutDto product = new SaleProductOutDto()
             {
                 Amount = productDto.Amount,
                 ProductId = p.Id,
+                ProductName = p.Name,
                 UnitPrice = warehouse.UnitPrice,
                 TotalPrice = warehouse.UnitPrice * productDto.Amount,
                 

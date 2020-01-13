@@ -4,9 +4,12 @@ using MyMarket.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Web.Http;
 
 namespace MyMarket.Controllers
@@ -37,7 +40,10 @@ namespace MyMarket.Controllers
         public IHttpActionResult SaleReceipt(ReceiptDto receiptDto)
         {
             IdentityUser user = db.Users.Where(a => a.UserName == ControllerContext.RequestContext.Principal.Identity.Name).FirstOrDefault();
-            decimal totalPrice = receiptDto.Products.Sum(a => a.TotalPrice);
+
+            var pro = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SaleProductOutDto>>(receiptDto.Products);
+
+            decimal totalPrice = pro.Sum(a => a.TotalPrice);
 
             if (user == null)
             {
@@ -54,7 +60,7 @@ namespace MyMarket.Controllers
                 try
                 {
 
-                    saveReceipt(receiptDto, totalPrice, user.Id);
+                    saveReceipt(receiptDto, pro, totalPrice, user.Id);
 
                    
 
@@ -73,14 +79,14 @@ namespace MyMarket.Controllers
 
         }
 
-        private void saveReceipt(ReceiptDto receiptDto, decimal totalPrice, string userid)
+        private void saveReceipt(ReceiptDto receiptDto, List<SaleProductOutDto> products, decimal totalPrice, string userid)
         {
             Receipt receipt = new Receipt()
             {
                 CodeReceipt = receiptDto.CodeReceipt,
                 CustomerId = db.Customers.FirstOrDefault(a => a.IdentificationNumber == receiptDto.IdentificationNumber).Id,
                 IVA = receiptDto.IVA,
-                TotalPrice = (totalPrice * 19 / 100) + totalPrice,
+                TotalPrice = (totalPrice * receiptDto.IVA / 100) + totalPrice,
                 UserId = userid,
                 CreationTime = DateTime.Now
 
@@ -88,7 +94,7 @@ namespace MyMarket.Controllers
 
             db.Receipts.Add(receipt);
 
-            foreach (var pro in receiptDto.Products)
+            foreach (var pro in products)
             {
                 SaleProduct product = new SaleProduct()
                 {
@@ -122,6 +128,16 @@ namespace MyMarket.Controllers
             }
 
             db.SaveChanges();
+        }
+
+        public static T Deserialize<T>(string json)
+        {
+            T obj = Activator.CreateInstance<T>();
+            MemoryStream ms = new MemoryStream(Encoding.Unicode.GetBytes(json));
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(obj.GetType());
+            obj = (T)serializer.ReadObject(ms);
+            ms.Close();
+            return obj;
         }
 
         /// <summary>

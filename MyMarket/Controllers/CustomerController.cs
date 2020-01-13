@@ -89,5 +89,60 @@ namespace MyMarket.Controllers
 
 
         }
+
+        [Authorize]
+        [HttpPost]
+        [Route("findcustomer")]
+        public FindCustomerOutDto FindCustomer(FindCustomerDto customerDto)
+        {
+            FindCustomerOutDto customer;
+            IdentityUser user = db.Users.Where(a => a.UserName == ControllerContext.RequestContext.Principal.Identity.Name).FirstOrDefault();
+
+            if (user == null)
+            {
+                var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent("User doesn't exist."),
+                    StatusCode = HttpStatusCode.NotFound
+                };
+                throw new HttpResponseException(response);
+            }
+
+            if (customerDto == null)
+            {
+                var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent("CustomerDto parameter doesn't exist."),
+                    StatusCode = HttpStatusCode.NotFound
+                };
+                throw new HttpResponseException(response);
+            }
+
+            var p = db.Customers.Where(a => a.IdentificationNumber == customerDto.IdentificationNumber).FirstOrDefault();
+
+            if (p == null)
+            {
+                var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent("customer indentification not exist, please create the Customer."),
+                    StatusCode = HttpStatusCode.NotFound
+                };
+                throw new HttpResponseException(response);
+            }
+            else
+            {
+                customer = new FindCustomerOutDto()
+                {
+                    FirstName = p.FirstName,
+                    IdentificationNumber = p.IdentificationNumber
+                };
+            }
+
+
+
+            return customer;
+
+
+        }
     }
 }

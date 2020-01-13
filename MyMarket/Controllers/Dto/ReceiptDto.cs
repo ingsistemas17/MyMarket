@@ -19,7 +19,7 @@ namespace MyMarket.Controllers.Dto
         public decimal IVA { get; set; }
 
 
-        public List<SaleProductOutDto> Products { get; set; }
+        public string Products { get; set; }
 
 
     }
